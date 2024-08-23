@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Set the path to the wallpapers directory
+wallpapersDir="$HOME/Pictures/MyWalls"
+
+# Function to preview images and select one
+select_wallpaper() {
+    # Get a list of all image files in the wallpapers directory
+    wallpapers=("$wallpapersDir"/*)
+
+    # Use fzf to select an image file with preview
+    selectedWallpaper=$(printf '%s\n' "${wallpapers[@]}" | fzf --preview 'feh --auto-zoom --scale-down --geometry 80x80 --image-bg black {}')
+
+    echo "$selectedWallpaper"
+}
+
+# Call the function and get the selected wallpaper
+selectedWallpaper=$(select_wallpaper)
+
+# Check if a wallpaper was selected
+if [ -n "$selectedWallpaper" ]; then
+    # Update the wallpaper using the swww img command
+    swww img "$selectedWallpaper" & wal -i "$selectedWallpaper"
+else
+    echo "No wallpaper selected."
+fi
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+brave-beta --app="https://web.whatsapp.com"

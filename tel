@@ -1,0 +1,4 @@
+#!/bin/sh
+
+
+brave-beta --app='https://web.telegram.org/'

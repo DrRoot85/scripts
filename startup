@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Display menu with colors
+echo -e  "What We Gone Do Today Dr.Root !? choose your desktop environment: "
+echo -e " Hyprland"
+echo -e " DWM "
+echo -e " Other "
+read -p "Enter the number of your choice: " choice
+
+case $choice in
+    1)
+        echo -e "Starting Hyprland..."
+        [ "$(tty)" = "/dev/tty1" ] && exec Hyprland
+        ;;
+    2)
+        echo -e "Starting DWM..."
+        if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+            ssh-agent startx
+        fi
+        ;;
+    3)
+        echo -e "Starting other desktop environment..."
+        # Add any commands you want to execute for the 'Other' choice here
+        ;;
+    *)
+        echo -e "Invalid choice. Exiting."
+        exit 1
+        ;;
+esac
+

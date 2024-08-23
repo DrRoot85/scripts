@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Display a menu to choose between the directories
+CHOICE=$(printf "1) ~/.local/bin\n2) ~/.config\nChoose a directory (1 or 2): " | dmenu -p "Select directory:" -c ~/.config/tofi/configA --drun-launch=true)
+
+case "$CHOICE" in
+    1)
+        ranger ~/.local/bin
+        ;;
+    2)
+        ranger ~/.config
+        ;;
+    *)
+        echo "Invalid choice"
+        ;;
+esac

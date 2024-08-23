@@ -1,0 +1,15 @@
+#!/bin/sh
+
+doas killall pipewire-pulse
+doas killall pipewire
+doas killall wireplumber
+sleep 0.5
+doas rc-service pipewire stop
+sleep 0.5
+doas rc-service pipewire-pulse stop
+sleep 0.5
+doas rc-service wireplumber stop
+#sleep 3
+/usr/bin/pipewire &
+/usr/bin/pipewire-pulse &
+/usr/bin/wireplumber &

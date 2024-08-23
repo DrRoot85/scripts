@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Pick an image using nsxiv
+selected_image=$(nsxiv -r -q -o ~/Pictures/MyWalls/"$1")
+SCRIPTSDIR="$HOME/.local/bin"
+
+
+wal -i "$selected_image" -o ~/.local/bin/reload_dunst
+xwallpaper --stretch "$selected_image"
+# sleep 1
+# xrdb -load   ~/.Xresources
+# xrdb ~/.Xresources
+# xrdb -merge ~/.cache/wal/colors.Xresources
+# sleep 0.5
+# . $HOME/.config/spicetify/Themes/Pywal/update-colors.sh

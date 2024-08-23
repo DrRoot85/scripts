@@ -1,0 +1,25 @@
+#!/bin/sh
+notify() {
+	printf 'gufw: escalating privileges via %s\n' "$1" >&2
+}
+if [ "$(whoami)" = "root" ]; then
+	exec python3 /usr/lib/python3.12/site-packages/gufw/gufw.py $@
+else
+	if [ "$(command -v xhost)" ] && [ "$WAYLAND_DISPLAY" ]; then
+		xhost +si:localuser:root
+	fi
+	if [ "$(command -v pkexec)" ]; then
+		notify 'doas'
+		doas gufw "$(whoami)"
+	elif [ "$(command -v sudo)" ]; then
+		notify 'doas'
+		doas gufw "$(whoami)"
+	elif [ "$(command -v sudo)" ]; then
+		# XXX: who knows if this works?
+		notify 'doas'
+		doas gufw "$(whoami)"
+	fi
+	if [ "$(command -v xhost)" ] && [ "$WAYLAND_DISPLAY" ]; then
+		xhost -si:localuser:root
+	fi
+fi

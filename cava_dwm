@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Path to cava configuration file
+CAVA_CONFIG="$HOME/.config/cava/config"
+
+# Path to the temporary file to store cava output
+CAVA_OUTPUT="/tmp/cava_fifo"
+
+# Create a named pipe
+mkfifo "$CAVA_OUTPUT"
+
+# Run cava and redirect its output to the named pipe
+cava -p ~/.config/cava/config > /tmp/cava_fifo
+
+# Read cava output and update dwm status bar
+while read -r line; do
+    xsetroot -name "$line"
+done < "$CAVA_OUTPUT"
+
+# Clean up
+rm "$CAVA_OUTPUT"
+

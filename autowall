@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+SCRIPTSDIR="$HOME/.local/bin"
+
+wal -i "$HOME/Pictures/MyWalls" -o ~/.local/bin/reload_dunst
+
+xargs xwallpaper --stretch < ~/.cache/wal/wal
+# xrdb -load   ~/.Xresources
+# xrdb ~/.Xresources
+# xrdb -merge ~/.cache/wal/colors.Xresources
+# sleep 0.5
+# pywal-discord -t default
+# pywalfox update
+# pywal-spicetify catppuccin
+# . $HOME/.config/spicetify/Themes/Pywal/update-colors.sh

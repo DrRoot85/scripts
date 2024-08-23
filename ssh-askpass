@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Log in to Bitwarden (only needed if not logged in)
+# bw login your-email@example.com --password your-master-password
+
+# Retrieve the password for the SSH key
+PASSWORD=$(bw get password "sshask")
+
+# Output the password (or handle it as needed)
+echo "$PASSWORD"
+

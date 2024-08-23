@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# Define the options and their corresponding actions
+options=(
+    "ChatGPT OpenAI"
+    "Google AI"
+    "Google AI (Fuzzle): Console Cloud"  # Update URL for Fuzzle
+    "NotYet"
+)
+
+# Define the browsers and their default commands
+browsers=(
+    "chromium"
+    "qutebrowser"
+    "firefox-esr"
+    "firefox"
+    "brave-beta"
+)
+
+# Define additional browser-specific options
+declare -A browser_options
+browser_options=(
+    ["chromium"]=" --app="
+    ["qutebrowser"]="url "
+    ["firefox-esr"]="--private-window "
+    ["firefox"]="--private-window "
+    ["brave-beta"]=" --app="
+)
+
+# Use fuzzel to select a browser
+selected_browser=$(printf "%s\n" "${browsers[@]}" | fuzzel -d -p "Select a browser:")
+
+# Check if a browser was selected
+if [[ -z "$selected_browser" ]]; then
+    echo "Error: No browser selected."
+    exit 1
+fi
+
+# Extract the browser name and command
+browser_name=$(echo "$selected_browser" | awk '{print $1}')
+browser_command=$(echo "$selected_browser" | awk '{$1=""; print $0}' | xargs)
+
+# Add browser-specific options
+if [[ -n "${browser_options[$browser_name]}" ]]; then
+    browser_command="$browser_name ${browser_options[$browser_name]}"
+fi
+
+# Use fuzzel to select an option
+selected_option=$(printf "%s\n" "${options[@]}" | fuzzel -d -p "Choose an option:")
+
+# Check if an option was selected
+if [[ -z "$selected_option" ]]; then
+    echo "Error: No option selected."
+    exit 1
+fi
+
+# Extract URL or message from the selected option
+case $selected_option in
+    "ChatGPT OpenAI")
+        url="https://chat.openai.com"
+        ;;
+    "Google AI")
+        url="https://gemini.google.com"
+        ;;
+    "Google AI (Fuzzle): Console Cloud")
+        url="https://console.cloud.google.com/fuzzle"
+        ;;
+    "NotYet")
+        echo "You chose 'NotYet'."
+        exit 0
+        ;;
+    *)
+        echo "Invalid option selected."
+        exit 1
+        ;;
+esac
+
+# Execute the chosen browser with the chosen URL
+$browser_command"$url"
+
+exit 0

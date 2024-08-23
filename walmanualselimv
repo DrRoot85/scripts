@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Set the path to the wallpapers directory
+wallpapersDir="$HOME/Pictures/MyWalls"
+
+# Function to preview images using imv
+preview_images() {
+    # Get a list of all image files in the wallpapers directory
+    wallpapers=("$wallpapersDir"/*)
+
+    # Open imv with all wallpapers
+    imv "${wallpapers[@]}"
+}
+
+# Call the function to preview images
+preview_images
+
+# Prompt the user to enter the selected wallpaper file name
+echo "Enter the file name of the selected wallpaper:"
+read -r selectedWallpaper
+
+# Check if the selected wallpaper exists
+if [ -f "$selectedWallpaper" ]; then
+    # Update the wallpaper using the swww img command
+    swww img "$selectedWallpaper" & wal -i "$selectedWallpaper"
+else
+    echo "Selected wallpaper does not exist."
+fi
+
